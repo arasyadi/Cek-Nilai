@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Nilai Mata Kuliah | Andy Rasyadi, S.Pi., M.Si.</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-color: #005f73;
+            --secondary-color: #0a9396;
+            --background-color: #e9f5f5;
+            --card-background: #ffffff;
+            --font-color: #333;
+            --shadow-color: rgba(0, 95, 115, 0.2);
+            --grade-a-color: #2a9d8f;
+            --grade-b-color: #e9c46a;
+            --grade-c-color: #f4a261;
+            --grade-d-color: #e76f51;
+            --grade-e-color: #d90429;
+            --grade-default-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background-color: var(--card-background);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #nimInput {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+        }
+
+        #nimInput:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(10, 147, 150, 0.3);
+        }
+
+        #checkButton {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 600;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        #course-selection-box {
+            margin-bottom: 20px;
+            animation: slideUp 0.5s ease-in-out;
+        }
+        #courseSelector {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 2px solid var(--secondary-color);
+            background-color: #fff;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideUp 0.5s ease-in-out;
+        }
+        
+        .result-card h3 { color: var(--primary-color); }
+        #student-info p { margin: 8px 0; font-size: 1.1em; }
+        #student-info strong { display: inline-block; width: 120px; color: #555; }
+        #grades-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        #grades-table th, #grades-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        #grades-table th { background-color: var(--primary-color); color: white; text-align: center; }
+        #grades-table tr:nth-child(even) { background-color: #f2f2f2; }
+
+        .final-grade-card { text-align: center; padding: 25px 20px; }
+        .grade-display {
+            width: 150px; height: 150px; margin: 15px auto 10px;
+            border-radius: 50%; display: flex; justify-content: center;
+            align-items: center; font-size: 5em; font-weight: 700;
+            color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 5px solid white; opacity: 0;
+            animation: gradeReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+        }
+        
+        .grade-A { background-color: var(--grade-a-color); }
+        .grade-B-plus, .grade-B { background-color: var(--grade-b-color); color: #333;}
+        .grade-C-plus, .grade-C { background-color: var(--grade-c-color); }
+        .grade-D-plus, .grade-D { background-color: var(--grade-d-color); }
+        .grade-E { background-color: var(--grade-e-color); }
+        .grade-other { background-color: var(--grade-default-color); }
+
+        @keyframes gradeReveal {
+            0% { transform: scale(0.3) rotate(-30deg); opacity: 0; }
+            60% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+            80% { transform: scale(0.95) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .message { padding: 15px; border-radius: 8px; font-weight: 600; }
+        .error { background-color: #fff0f3; color: #d90429; border: 1px solid #d90429; }
+        .info { background-color: #eef7ff; color: #005f73; border: 1px solid #005f73; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MarineScore Checker 🐠</h1>
+            <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah</p>
+			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="nimInput" placeholder="Masukkan Nomor Induk Mahasiswa (NIM)..." onkeydown="if(event.key==='Enter') document.getElementById('checkButton').click()">
+            <button id="checkButton">Cek Nilai</button>
+        </div>
+
+        <div id="course-selection-box"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const csvUrl = 'https://gist.githubusercontent.com/arasyadi/fb8032e467d87855397765f64bd9abdf/raw/c5868b9626a7283d12a0e5b3e9f25c0a0a5c5ee8/data-nilai-mahasiswa.csv';
+        
+        const nimInput = document.getElementById('nimInput');
+        const checkButton = document.getElementById('checkButton');
+        const resultDiv = document.getElementById('result');
+        const courseSelectionBox = document.getElementById('course-selection-box');
+
+        let studentData = [];
+        let currentStudentRecords = [];
+
+        window.addEventListener('DOMContentLoaded', loadStudentData);
+        checkButton.addEventListener('click', findStudent);
+
+        function loadStudentData() {
+            Papa.parse(csvUrl, {
+                download: true, header: true, skipEmptyLines: true,
+                complete: (results) => {
+                    studentData = results.data;
+                    displayMessage('info', 'Selamat datang! Silakan masukkan NIM untuk melihat rekap nilai.');
+                },
+                error: (err) => {
+                    displayMessage('error', 'Gagal memuat data nilai. Pastikan URL dan format CSV sudah benar.');
+                }
+            });
+        }
+
+        function findStudent() {
+            const nimToFind = nimInput.value.trim();
+            resultDiv.innerHTML = '';
+            courseSelectionBox.innerHTML = '';
+
+            if (!nimToFind) {
+                displayMessage('error', 'NIM tidak boleh kosong.');
+                return;
+            }
+
+            currentStudentRecords = studentData.filter(row => row.NIM && row.NIM.trim() === nimToFind);
+
+            if (currentStudentRecords.length === 0) {
+                displayMessage('error', `Data untuk NIM <strong>${nimToFind}</strong> tidak ditemukan.`);
+            } else if (currentStudentRecords.length === 1) {
+                displayGrades(currentStudentRecords[0]);
+            } else {
+                displayCourseSelector(currentStudentRecords);
+            }
+        }
+
+        function displayCourseSelector(records) {
+            const studentName = records[0].Nama;
+            let options = `<option value="">-- Pilih Mata Kuliah untuk an. ${studentName} --</option>`;
+            records.forEach((record, index) => {
+                options += `<option value="${index}">${record.Mata_Kuliah}</option>`;
+            });
+            courseSelectionBox.innerHTML = `<select id="courseSelector" onchange="handleCourseSelection(this.value)">${options}</select>`;
+        }
+        
+        function handleCourseSelection(selectedIndex) {
+             if(selectedIndex === "") {
+                resultDiv.innerHTML = '';
+                return;
+             }
+             const selectedRecord = currentStudentRecords[selectedIndex];
+             displayGrades(selectedRecord);
+        }
+
+        function displayGrades(student) {
+            // --- LOGIKA BARU: Langsung baca dari kolom 'Grade' ---
+            const finalGradeValue = student.Grade ? student.Grade.trim() : 'N/A'; // Ambil grade dari CSV
+            const finalGradeClass = getGradeClass(finalGradeValue); // Dapatkan class CSS untuk warna
+
+            const assessmentIndicators = Object.keys(student)
+                .filter(key => key.startsWith('Nilai_'))
+                .map(key => ({
+                    name: key.replace('Nilai_', '').replace(/_/g, ' '),
+                    grade: student[key]
+                }));
+            
+            let tableRows = '';
+            assessmentIndicators.forEach(indicator => {
+                tableRows += `<tr><td>${indicator.name}</td><td style="text-align:center;">${indicator.grade || '-'}</td></tr>`;
+            });
+
+            resultDiv.innerHTML = `
+                <div class="result-card" id="student-info">
+                    <h3>Identitas Mahasiswa</h3>
+                    <p><strong>Nama Lengkap:</strong> ${student.Nama}</p>
+                    <p><strong>NIM:</strong> ${student.NIM}</p>
+                    <p><strong>Mata Kuliah:</strong> ${student.Mata_Kuliah}</p>
+                    <p><strong>Program Studi:</strong> ${student.Prodi}</p>
+                </div>
+                <div class="result-card" id="student-grades">
+                    <h3>Rincian Nilai</h3>
+                    <table id="grades-table">${'<thead><tr><th>Indikator Penilaian</th><th>Nilai</th></tr></thead>'}<tbody>${tableRows}</tbody></table>
+                    <div class="final-grade-card">
+                        <h3>Grade Akhir</h3>
+                        <div class="grade-display ${finalGradeClass}">${finalGradeValue}</div>
+                        </div>
+                </div>
+            `;
+        }
+        
+        // --- FUNGSI BARU untuk memetakan Grade ke Class CSS ---
+        function getGradeClass(grade) {
+            const gradeUpper = grade.toUpperCase();
+            if (gradeUpper === 'A') return 'grade-A';
+            if (gradeUpper === 'B+') return 'grade-B-plus';
+            if (gradeUpper === 'B') return 'grade-B';
+            if (gradeUpper === 'C+') return 'grade-C-plus';
+            if (gradeUpper === 'C') return 'grade-C';
+            if (gradeUpper === 'D+') return 'grade-D-plus';
+            if (gradeUpper === 'D') return 'grade-D';
+            if (gradeUpper === 'E') return 'grade-E';
+            return 'grade-other'; // Untuk grade tidak dikenal
+        }
+        
+        // --- FUNGSI DIHAPUS ---
+        // calculateLetterGrade(average) tidak lagi diperlukan
+
+        function displayMessage(type, message) {
+            resultDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
