@@ -6,6 +6,7 @@
     <title>Rekap Nilai Mata Kuliah | Andy Rasyadi, S.Pi., M.Si.</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
+        /* ... CSS Anda dari sebelumnya tidak perlu diubah ... */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         :root {
@@ -44,7 +45,14 @@
             text-align: center;
             animation: fadeIn 0.8s ease-in-out;
         }
-
+        
+        #last-update {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        /* Sisa CSS Anda tetap sama... */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -165,7 +173,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>MarineScore Checker 🐠</h1>
+            <h1>MarineScore Checker ðŸ </h1>
             <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah</p>
 			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
         </div>
@@ -175,26 +183,57 @@
             <button id="checkButton">Cek Nilai</button>
         </div>
 
+        <div id="last-update"></div>
+
         <div id="course-selection-box"></div>
         <div id="result"></div>
     </div>
 
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=633003728&single=true&output=csv';
+        // --- PENGATURAN URL ---
+		// URL untuk data nilai utama
+		const dataUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=633003728&single=true&output=csv';
+		// URL untuk sheet "Info" yang berisi tanggal update
+		const infoUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=1422727630&single=true&output=csv';
         
         const nimInput = document.getElementById('nimInput');
         const checkButton = document.getElementById('checkButton');
         const resultDiv = document.getElementById('result');
         const courseSelectionBox = document.getElementById('course-selection-box');
+        const lastUpdateDiv = document.getElementById('last-update');
 
         let studentData = [];
         let currentStudentRecords = [];
 
-        window.addEventListener('DOMContentLoaded', loadStudentData);
+        // --- Muat semua data saat halaman dibuka ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadStudentData();
+            loadLastUpdate(); // Panggil fungsi baru
+        });
+
         checkButton.addEventListener('click', findStudent);
 
+        // --- Fungsi baru untuk memuat tanggal update ---
+        function loadLastUpdate() {
+            Papa.parse(infoUrl, {
+                download: true, header: true, skipEmptyLines: true,
+                complete: (results) => {
+                    const infoData = results.data;
+                    // Cari baris dimana Key adalah "LastUpdate"
+                    const updateInfo = infoData.find(row => row.Key === 'LastUpdate');
+                    if (updateInfo) {
+                        lastUpdateDiv.innerText = `Pembaruan Terakhir: ${updateInfo.Value}`;
+                    }
+                },
+                error: (err) => {
+                    console.error("Gagal memuat info update:", err);
+                    lastUpdateDiv.innerText = "Gagal memuat info pembaruan.";
+                }
+            });
+        }
+
         function loadStudentData() {
-            Papa.parse(csvUrl, {
+            Papa.parse(dataUrl, {
                 download: true, header: true, skipEmptyLines: true,
                 complete: (results) => {
                     studentData = results.data;
@@ -207,6 +246,7 @@
         }
 
         function findStudent() {
+            /* ... Sisa fungsi findStudent tidak ada perubahan ... */
             const nimToFind = nimInput.value.trim();
             resultDiv.innerHTML = '';
             courseSelectionBox.innerHTML = '';
@@ -228,6 +268,7 @@
         }
 
         function displayCourseSelector(records) {
+             /* ... Fungsi ini tidak ada perubahan ... */
             const studentName = records[0].Nama;
             let options = `<option value="">-- Pilih Mata Kuliah untuk an. ${studentName} --</option>`;
             records.forEach((record, index) => {
@@ -237,6 +278,7 @@
         }
         
         function handleCourseSelection(selectedIndex) {
+            /* ... Fungsi ini tidak ada perubahan ... */
              if(selectedIndex === "") {
                 resultDiv.innerHTML = '';
                 return;
@@ -246,9 +288,9 @@
         }
 
         function displayGrades(student) {
-            // --- LOGIKA BARU: Langsung baca dari kolom 'Grade' ---
-            const finalGradeValue = student.Grade ? student.Grade.trim() : 'N/A'; // Ambil grade dari CSV
-            const finalGradeClass = getGradeClass(finalGradeValue); // Dapatkan class CSS untuk warna
+            /* ... Sisa fungsi displayGrades tidak ada perubahan ... */
+            const finalGradeValue = student.Grade ? student.Grade.trim() : 'N/A';
+            const finalGradeClass = getGradeClass(finalGradeValue);
 
             const assessmentIndicators = Object.keys(student)
                 .filter(key => key.startsWith('Nilai_'))
@@ -276,13 +318,13 @@
                     <div class="final-grade-card">
                         <h3>Grade Akhir</h3>
                         <div class="grade-display ${finalGradeClass}">${finalGradeValue}</div>
-                        </div>
+                    </div>
                 </div>
             `;
         }
         
-        // --- FUNGSI BARU untuk memetakan Grade ke Class CSS ---
         function getGradeClass(grade) {
+            /* ... Fungsi ini tidak ada perubahan ... */
             const gradeUpper = grade.toUpperCase();
             if (gradeUpper === 'A') return 'grade-A';
             if (gradeUpper === 'B+') return 'grade-B-plus';
@@ -292,18 +334,15 @@
             if (gradeUpper === 'D+') return 'grade-D-plus';
             if (gradeUpper === 'D') return 'grade-D';
             if (gradeUpper === 'E') return 'grade-E';
-            return 'grade-other'; // Untuk grade tidak dikenal
+            return 'grade-other';
         }
-        
-        // --- FUNGSI DIHAPUS ---
-        // calculateLetterGrade(average) tidak lagi diperlukan
 
         function displayMessage(type, message) {
+            /* ... Fungsi ini tidak ada perubahan ... */
             resultDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
         }
     </script>
 </body>
-
 </html>
 
-
+```
