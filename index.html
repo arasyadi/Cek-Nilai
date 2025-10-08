@@ -173,7 +173,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>MarineScore Checker ðŸ </h1>
+            <h1>MarineScore Checker 🐟</h1>
             <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah</p>
 			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
         </div>
@@ -222,7 +222,7 @@
                     // Cari baris dimana Key adalah "LastUpdate"
                     const updateInfo = infoData.find(row => row.Key === 'LastUpdate');
                     if (updateInfo) {
-                        lastUpdateDiv.innerText = `Pembaruan Terakhir: ${updateInfo.Value}`;
+                        lastUpdateDiv.innerText = `Update : ${updateInfo.Value}`;
                     }
                 },
                 error: (err) => {
@@ -344,3 +344,4 @@
     </script>
 </body>
 </html>
+
