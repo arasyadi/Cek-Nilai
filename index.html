@@ -87,6 +87,7 @@
             font-size: 1em;
             border-radius: 8px;
             border: 2px solid #ccc;
+            min-width: 100px; /* Tambahan untuk mencegah terlalu kecil */
         }
 
         #nimInput:focus {
@@ -302,17 +303,29 @@
         }
         
         @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .header h1 { font-size: 1.6em; }
-            .action-buttons { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
+            .search-box {
+                flex-wrap: wrap;
+            }
+            .container {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>MarineScore Checker ðŸŸ</h1>
+            <h1>MarineScore Checker 🐟</h1>
             <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah v1.2</p>
 			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
         </div>
@@ -480,14 +493,14 @@
 
             resultDiv.innerHTML = `
                 <div class="result-card" id="student-info">
-                    <h3>âœ¨ Identitas Mahasiswa</h3>
+                    <h3>? Identitas Mahasiswa</h3>
                     <p><strong>Nama Lengkap:</strong> ${student.Nama}</p>
                     <p><strong>NIM:</strong> ${student.NIM}</p>
                     <p><strong>Mata Kuliah:</strong> ${student.Mata_Kuliah}</p>
                     <p><strong>Program Studi:</strong> ${student.Prodi}</p>
                 </div>
                 <div class="result-card" id="student-grades">
-                    <h3>ðŸ“Š Rincian Nilai</h3>
+                    <h3>?? Rincian Nilai</h3>
                     <table id="grades-table">${'<thead><tr><th>Indikator Penilaian</th><th>Nilai</th></tr></thead>'}<tbody>${tableRows}</tbody></table>
                     
                     <div class="stats-grid">
@@ -506,20 +519,20 @@
                     </div>
                     
                     <div class="final-grade-card">
-                        <h3>ðŸŽ“ Grade Akhir</h3>
+                        <h3>?? Grade Akhir</h3>
                         <div class="grade-display ${finalGradeClass}">${finalGradeValue}</div>
                         ${gradeInsight}
                     </div>
                     
                     <div class="action-buttons">
                         <a href="${waLink}" target="_blank" class="btn btn-whatsapp">
-                            <span>ðŸ’¬</span> Konsultasi Dosen
+                            <span>??</span> Konsultasi Dosen
                         </a>
                         <button onclick="window.print()" class="btn btn-print">
-                            <span>ðŸ–¨ï¸</span> Cetak Nilai
+                            <span>???</span> Cetak Nilai
                         </button>
                         <button onclick="resetForm()" class="btn btn-reset">
-                            <span>ðŸ”„</span> Cek NIM Lain
+                            <span>??</span> Cek NIM Lain
                         </button>
                     </div>
                 </div>
@@ -544,13 +557,13 @@
             let insight = '';
             
             if (gradeUpper === 'A') {
-                insight = '<div class="grade-insight"><p><strong>ðŸŒŸ Luar Biasa!</strong> Prestasi yang sangat membanggakan. Pertahankan kualitas belajar Anda!</p></div>';
+                insight = '<div class="grade-insight"><p><strong>?? Luar Biasa!</strong> Prestasi yang sangat membanggakan. Pertahankan kualitas belajar Anda!</p></div>';
             } else if (gradeUpper === 'B+' || gradeUpper === 'B') {
-                insight = '<div class="grade-insight"><p><strong>ðŸ‘ Sangat Baik!</strong> Hasil yang memuaskan. Tingkatkan lagi untuk mencapai nilai maksimal!</p></div>';
+                insight = '<div class="grade-insight"><p><strong>?? Sangat Baik!</strong> Hasil yang memuaskan. Tingkatkan lagi untuk mencapai nilai maksimal!</p></div>';
             } else if (gradeUpper === 'C+' || gradeUpper === 'C') {
-                insight = '<div class="grade-insight"><p><strong>ðŸ“š Cukup Baik</strong> Masih ada ruang untuk berkembang. Jangan ragu konsultasi dengan dosen!</p></div>';
+                insight = '<div class="grade-insight"><p><strong>?? Cukup Baik</strong> Masih ada ruang untuk berkembang. Jangan ragu konsultasi dengan dosen!</p></div>';
             } else if (gradeUpper === 'D+' || gradeUpper === 'D' || gradeUpper === 'E') {
-                insight = '<div class="grade-insight"><p><strong>ðŸ’ª Perlu Peningkatan</strong> Segera konsultasi dengan dosen untuk strategi belajar yang lebih baik!</p></div>';
+                insight = '<div class="grade-insight"><p><strong>?? Perlu Peningkatan</strong> Segera konsultasi dengan dosen untuk strategi belajar yang lebih baik!</p></div>';
             }
             
             return insight;
