@@ -87,6 +87,7 @@
             font-size: 1em;
             border-radius: 8px;
             border: 2px solid #ccc;
+            min-width: 0; /* <-- INI PERBAIKANNYA */
         }
 
         #nimInput:focus {
@@ -104,7 +105,6 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            /* transisi dan efek hover dihapus agar sama seperti index.html */
         }
         
         #course-selection-box {
@@ -292,7 +292,6 @@
         }
         
         @media (max-width: 600px) {
-            /* Aturan padding container dihapus agar padding tetap luas di mobile */
             .header h1 {
                 font-size: 1.6em;
             }
@@ -355,9 +354,7 @@
 
         checkButton.addEventListener('click', findStudent);
         
-        // Animasi saat load dinonaktifkan agar tidak mengganggu layout mobile
         nimInput.addEventListener('input', () => {
-            // Hanya jalankan animasi di layar lebar (desktop)
             if (window.innerWidth > 600) {
                 if(nimInput.value.length > 0) {
                     checkButton.style.transform = 'scale(1.05)';
@@ -447,7 +444,6 @@
                     grade: student[key]
                 }));
             
-            // Hitung statistik nilai
             const numericGrades = assessmentIndicators
                 .map(ind => parseFloat(ind.grade))
                 .filter(grade => !isNaN(grade));
@@ -469,10 +465,8 @@
                 tableRows += `<tr><td>${indicator.name}</td><td style="text-align:center;">${indicator.grade || '-'}</td></tr>`;
             });
             
-            // Generate insight berdasarkan grade
             const gradeInsight = getGradeInsight(finalGradeValue, avgGrade);
             
-            // Generate WhatsApp message
             const waMessage = encodeURIComponent(
                 `Selamat Pagi/Siang/Sore Pak ${dosenNama},\n\nSaya ${student.Nama} (NIM: ${student.NIM}) ingin berkonsultasi mengenai nilai mata kuliah ${student.Mata_Kuliah}.\n\nTerima kasih.`
             );
