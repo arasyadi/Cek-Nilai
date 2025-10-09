@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rekap Nilai Mata Kuliah | Andy Rasyadi, S.Pi., M.Si.</title>
-    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/2/2d/Logo-unud-baru.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -22,12 +21,6 @@
             --grade-d-color: #e76f51;
             --grade-e-color: #d90429;
             --grade-default-color: #6c757d;
-            --success-color: #28a745;
-            --whatsapp-color: #25D366;
-        }
-        
-        * {
-            box-sizing: border-box;
         }
 
         body {
@@ -58,6 +51,7 @@
             margin-top: 10px;
         }
         
+        /* Sisa CSS Anda tetap sama... */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -87,7 +81,6 @@
             font-size: 1em;
             border-radius: 8px;
             border: 2px solid #ccc;
-            width: 100%;
         }
 
         #nimInput:focus {
@@ -105,18 +98,6 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        
-        #checkButton:hover {
-            background-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 95, 115, 0.3);
-        }
-        
-        #checkButton:active {
-            transform: translateY(0);
         }
         
         #course-selection-box {
@@ -186,221 +167,13 @@
         .message { padding: 15px; border-radius: 8px; font-weight: 600; }
         .error { background-color: #fff0f3; color: #d90429; border: 1px solid #d90429; }
         .info { background-color: #eef7ff; color: #005f73; border: 1px solid #005f73; }
-        
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 0.95em;
-        }
-        
-        .btn-whatsapp {
-            background-color: var(--whatsapp-color);
-            color: white;
-        }
-        
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-        }
-        
-        .btn-print {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-print:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 95, 115, 0.3);
-        }
-        
-        .btn-reset {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .btn-reset:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
-        }
-        
-        .grade-insight {
-            margin-top: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .grade-insight p {
-            margin: 8px 0;
-            font-size: 0.95em;
-            color: #555;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .stat-card h4 {
-            margin: 0 0 8px 0;
-            color: var(--primary-color);
-            font-size: 0.9em;
-        }
-        
-        .stat-card .stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: var(--secondary-color);
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0, 95, 115, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @media print {
-            body { background: white; }
-            .container { box-shadow: none; }
-            .search-box, .action-buttons, #checkButton { display: none; }
-        }
-        
-        /* PERBAIKAN UTAMA: Media Query untuk Mobile */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-                align-items: stretch;
-            }
-            
-            .container {
-                padding: 20px;
-                width: 100%;
-                max-width: 100%;
-                border-radius: 10px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .search-box {
-                flex-direction: column;
-                gap: 12px;
-            }
-            
-            #nimInput {
-                width: 100%;
-            }
-            
-            #checkButton {
-                width: 100%;
-                padding: 14px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-                padding: 14px;
-            }
-            
-            .grade-display {
-                width: 120px;
-                height: 120px;
-                font-size: 4em;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            #grades-table {
-                font-size: 0.9em;
-            }
-            
-            #grades-table th, 
-            #grades-table td {
-                padding: 8px 10px;
-            }
-            
-            #student-info strong {
-                width: 100px;
-            }
-            
-            #student-info p {
-                font-size: 1em;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .grade-display {
-                width: 100px;
-                height: 100px;
-                font-size: 3em;
-            }
-            
-            .result-card {
-                padding: 15px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>MarineScore Checker 🐟</h1>
-            <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah v1.2</p>
+            <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah</p>
 			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
         </div>
 
@@ -418,12 +191,9 @@
     <script>
         // --- PENGATURAN URL ---
 		// URL untuk data nilai utama
-		const dataUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=633003728&single=true&output=csv';
+		const dataUrl = ''https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=633003728&single=true&output=csv'';
 		// URL untuk sheet "Info" yang berisi tanggal update
-		const infoUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=1422727630&single=true&output=csv';
-		// Nomor WhatsApp dosen (format: 62xxx tanpa +)
-		const dosenWhatsApp = '6281337359423'; // Ganti dengan nomor WA dosen
-		const dosenNama = 'Andy Rasyadi, S.Pi., M.Si.';
+		const infoUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZOtWPI_--3z-KW696UKS1GwkohfwK4PKdDGJEcqs8zRICMlRvUh3Zh-MwehTlpCdiP-r6mpTrTOi/pub?gid=1422727630&single=true&output=csv'';
         
         const nimInput = document.getElementById('nimInput');
         const checkButton = document.getElementById('checkButton');
@@ -433,25 +203,13 @@
 
         let studentData = [];
         let currentStudentRecords = [];
-        let currentStudent = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             loadStudentData();
             loadLastUpdate();
-            
-            // Auto-focus pada input NIM
-            nimInput.focus();
         });
 
         checkButton.addEventListener('click', findStudent);
-        
-        // Animasi saat load
-        nimInput.addEventListener('input', () => {
-            if(nimInput.value.length > 0) {
-                checkButton.style.transform = 'scale(1.05)';
-                setTimeout(() => checkButton.style.transform = 'scale(1)', 200);
-            }
-        });
 
         function loadLastUpdate() {
             Papa.parse(infoUrl, {
@@ -523,7 +281,6 @@
         }
 
         function displayGrades(student) {
-            currentStudent = student;
             const finalGradeValue = student.Grade ? student.Grade.trim() : 'N/A';
             const finalGradeClass = getGradeClass(finalGradeValue);
 
@@ -534,80 +291,25 @@
                     grade: student[key]
                 }));
             
-            // Hitung statistik nilai
-            const numericGrades = assessmentIndicators
-                .map(ind => parseFloat(ind.grade))
-                .filter(grade => !isNaN(grade));
-            
-            const avgGrade = numericGrades.length > 0 
-                ? (numericGrades.reduce((a, b) => a + b, 0) / numericGrades.length).toFixed(1)
-                : 'N/A';
-            
-            const maxGrade = numericGrades.length > 0 
-                ? Math.max(...numericGrades).toFixed(1)
-                : 'N/A';
-            
-            const minGrade = numericGrades.length > 0 
-                ? Math.min(...numericGrades).toFixed(1)
-                : 'N/A';
-            
             let tableRows = '';
             assessmentIndicators.forEach(indicator => {
                 tableRows += `<tr><td>${indicator.name}</td><td style="text-align:center;">${indicator.grade || '-'}</td></tr>`;
             });
-            
-            // Generate insight berdasarkan grade
-            const gradeInsight = getGradeInsight(finalGradeValue, avgGrade);
-            
-            // Generate WhatsApp message
-            const waMessage = encodeURIComponent(
-                `Selamat Pagi/Siang/Sore Pak ${dosenNama},\n\nSaya ${student.Nama} (NIM: ${student.NIM}) ingin berkonsultasi mengenai nilai mata kuliah ${student.Mata_Kuliah}.\n\nTerima kasih.`
-            );
-            const waLink = `https://wa.me/${dosenWhatsApp}?text=${waMessage}`;
 
             resultDiv.innerHTML = `
                 <div class="result-card" id="student-info">
-                    <h3>âœ¨ Identitas Mahasiswa</h3>
+                    <h3>Identitas Mahasiswa</h3>
                     <p><strong>Nama Lengkap:</strong> ${student.Nama}</p>
                     <p><strong>NIM:</strong> ${student.NIM}</p>
                     <p><strong>Mata Kuliah:</strong> ${student.Mata_Kuliah}</p>
                     <p><strong>Program Studi:</strong> ${student.Prodi}</p>
                 </div>
                 <div class="result-card" id="student-grades">
-                    <h3>ðŸ“Š Rincian Nilai</h3>
+                    <h3>Rincian Nilai</h3>
                     <table id="grades-table">${'<thead><tr><th>Indikator Penilaian</th><th>Nilai</th></tr></thead>'}<tbody>${tableRows}</tbody></table>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h4>Rata-rata</h4>
-                            <div class="stat-value">${avgGrade}</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Tertinggi</h4>
-                            <div class="stat-value">${maxGrade}</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Terendah</h4>
-                            <div class="stat-value">${minGrade}</div>
-                        </div>
-                    </div>
-                    
                     <div class="final-grade-card">
-                        <h3>ðŸŽ“ Grade Akhir</h3>
+                        <h3>Grade Akhir</h3>
                         <div class="grade-display ${finalGradeClass}">${finalGradeValue}</div>
-                        ${gradeInsight}
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <a href="${waLink}" target="_blank" class="btn btn-whatsapp">
-                            <span>ðŸ’¬</span> Konsultasi Dosen
-                        </a>
-                        <button onclick="window.print()" class="btn btn-print">
-                            <span>ðŸ–¨ï¸</span> Cetak Nilai
-                        </button>
-                        <button onclick="resetForm()" class="btn btn-reset">
-                            <span>ðŸ”„</span> Cek NIM Lain
-                        </button>
                     </div>
                 </div>
             `;
@@ -624,33 +326,6 @@
             if (gradeUpper === 'D') return 'grade-D';
             if (gradeUpper === 'E') return 'grade-E';
             return 'grade-other';
-        }
-        
-        function getGradeInsight(grade, avgGrade) {
-            const gradeUpper = grade.toUpperCase();
-            let insight = '';
-            
-            if (gradeUpper === 'A') {
-                insight = '<div class="grade-insight"><p><strong>🌟 Luar Biasa!</strong> Prestasi yang sangat membanggakan. Pertahankan kualitas belajar Anda!</p></div>';
-            } else if (gradeUpper === 'B+' || gradeUpper === 'B') {
-                insight = '<div class="grade-insight"><p><strong>👍 Sangat Baik!</strong> Hasil yang memuaskan. Tingkatkan lagi untuk mencapai nilai maksimal!</p></div>';
-            } else if (gradeUpper === 'C+' || gradeUpper === 'C') {
-                insight = '<div class="grade-insight"><p><strong>📚 Cukup Baik</strong> Masih ada ruang untuk berkembang. Jangan ragu konsultasi dengan dosen!</p></div>';
-            } else if (gradeUpper === 'D+' || gradeUpper === 'D' || gradeUpper === 'E') {
-                insight = '<div class="grade-insight"><p><strong>💪 Perlu Peningkatan</strong> Segera konsultasi dengan dosen untuk strategi belajar yang lebih baik!</p></div>';
-            }
-            
-            return insight;
-        }
-        
-        function resetForm() {
-            nimInput.value = '';
-            resultDiv.innerHTML = '';
-            courseSelectionBox.innerHTML = '';
-            currentStudentRecords = [];
-            currentStudent = null;
-            nimInput.focus();
-            displayMessage('info', 'Selamat datang! Silakan masukkan NIM untuk melihat rekap nilai.');
         }
 
         function displayMessage(type, message) {
