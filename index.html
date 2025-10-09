@@ -104,17 +104,7 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        #checkButton:hover {
-            background-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 95, 115, 0.3);
-        }
-        
-        #checkButton:active {
-            transform: translateY(0);
+            /* transisi dan efek hover dihapus agar sama seperti index.html */
         }
         
         #course-selection-box {
@@ -302,9 +292,7 @@
         }
         
         @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
+            /* Aturan padding container dihapus agar padding tetap luas di mobile */
             .header h1 {
                 font-size: 1.6em;
             }
@@ -367,7 +355,7 @@
 
         checkButton.addEventListener('click', findStudent);
         
-        // Animasi saat load
+        // Animasi saat load dinonaktifkan agar tidak mengganggu layout mobile
         nimInput.addEventListener('input', () => {
             // Hanya jalankan animasi di layar lebar (desktop)
             if (window.innerWidth > 600) {
