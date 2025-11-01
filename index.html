@@ -51,7 +51,6 @@
             margin-top: 10px;
         }
         
-        /* Sisa CSS Anda tetap sama... */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -172,7 +171,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>MarineScore Checker 🐟</h1>
+            <h1>MarineScore Checker ðŸŸ</h1>
             <p>Sistem Informasi Pengecekan Nilai Per Mata Kuliah</p>
 			<p>Dibuat oleh: Andy Rasyadi, S.Pi., M.Si.</p>
         </div>
@@ -273,8 +272,13 @@
                 resultDiv.innerHTML = '';
                 return;
              }
-             const selectedRecord = currentStudentRecords[selectedIndex];
-             displayGrades(selectedRecord);
+             // Clear dulu sebelum render ulang untuk memastikan refresh penuh
+             resultDiv.innerHTML = '';
+             // Delay sedikit untuk memicu re-render dan animasi
+             setTimeout(() => {
+                 const selectedRecord = currentStudentRecords[selectedIndex];
+                 displayGrades(selectedRecord);
+             }, 50);
         }
 
         function displayGrades(student) {
@@ -286,12 +290,21 @@
                 .map(key => ({
                     name: key.replace('Nilai_', '').replace(/_/g, ' '),
                     grade: student[key]
-                }));
+                }))
+                .filter(indicator => {
+                    // Filter: hanya tampilkan indikator yang ada nilainya
+                    const val = indicator.grade;
+                    return val && val.toString().trim() !== '' && val.toString().trim() !== '0' && val.toString().trim() !== '-';
+                });
             
             let tableRows = '';
-            assessmentIndicators.forEach(indicator => {
-                tableRows += `<tr><td>${indicator.name}</td><td style="text-align:center;">${indicator.grade || '-'}</td></tr>`;
-            });
+            if (assessmentIndicators.length === 0) {
+                tableRows = '<tr><td colspan="2" style="text-align:center; color:#999;">Belum ada data penilaian</td></tr>';
+            } else {
+                assessmentIndicators.forEach(indicator => {
+                    tableRows += `<tr><td>${indicator.name}</td><td style="text-align:center;">${indicator.grade}</td></tr>`;
+                });
+            }
 
             resultDiv.innerHTML = `
                 <div class="result-card" id="student-info">
@@ -331,5 +344,3 @@
     </script>
 </body>
 </html>
-
-
